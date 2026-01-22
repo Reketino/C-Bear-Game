@@ -8,11 +8,14 @@ public static Random rng = new();
     {
     int playerHP = 30;
     int enemyHP = 20;
+    int potions = 2;
+    int maxHP = 30;
+   
    
 
     Console.WriteLine("You meet a wild Bear!🐻");
 
-    while (playerHP > 0 && enemyHP > 0)
+    while (playerHP > 0 && enemyHP > 0) 
         {
            Console.WriteLine($"\nYou HP: {playerHP} | Bear HP: {enemyHP}");
            Console.WriteLine("Choose: (a)ttack or (h)eal:");
@@ -26,14 +29,31 @@ public static Random rng = new();
             }
             else if (choice == "h")
             {
+                if (potions > 0)
+           
+            {
                 int heal = rng.Next(4, 10);
                 playerHP += heal;
-                Console.WriteLine($"You are bandaging ur wounds {heal}");
+                potions--;
+
+                if (playerHP > maxHP)
+                {
+                playerHP = maxHP;
+                }
+                bool reachedMax = playerHP == maxHP;
+
+                Console.WriteLine($"You are bandaging ur wounds +{heal} HP (potions left: {potions})");
+
+                if (reachedMax)
+                    {
+                        Console.WriteLine($"MaxHP reached");
+                    }
             }
             else
             {
-                Console.WriteLine("Invalid input. use a or h");
+                Console.WriteLine("Zero potions left");
                 continue;
+              }
             }
             if ( enemyHP <= 0) break;
 
@@ -41,10 +61,12 @@ public static Random rng = new();
             playerHP -= enemyDamage;
 
             Console.WriteLine($"Bear slashes you for {enemyDamage}");
+
         }
 
         Console.WriteLine(playerHP > 0 ? "\n 🥇You win!" : "\n 🐻You got murdered");
     }
+
 }
 
 
